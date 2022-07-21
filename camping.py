@@ -1,4 +1,3 @@
-from ctypes import alignment
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -9,16 +8,19 @@ sf.set_data_dir('~/simfin_data/')
 sf.set_api_key(api_key='dHn4WilocFiLo6bn1sNmkT2lpmkGSWrF')
 
 st.set_page_config(layout="wide")
-
 st. markdown("<h1 style='text-align: center;'>Stockscreener</h1>", unsafe_allow_html=True)
 
-df_val_signals = pd.read_excel (r"C:\Users\Tom\OneDrive\Documenten\stockscreener.xlsx")
+hub = sf.StockHub(market='us',
+    refresh_days=30,
+    refresh_days_shareprices=1)
 
+df_val_signals = hub.val_signals(variant='latest')
+df_val_signals = df_val_signals.reset_index()
 
-df_val_signals = df_val_signals.sort_values('Market-Cap (in millions)', ascending=False)
-df_val_signals = df_val_signals [['Ticker', 'Market-Cap (in millions)', 'Dividend Yield', 'P/E' , 'P/Sales', 'Price to Book Value' ,'P/FCF']]
+df_val_signals = df_val_signals.sort_values('Market-Cap', ascending=False)
+df_val_signals = df_val_signals [['Ticker', 'Market-Cap', 'Dividend Yield', 'P/E' , 'P/Sales', 'Price to Book Value' ,'P/FCF']]
 df_val_signals = df_val_signals.round({'P/E': 1, 'Dividend Yield': 3, 'P/Sales': 1, 'Price to Book Value': 1, 'P/FCF': 1})
-df_val_signals.dropna(subset=['Market-Cap (in millions)'], inplace=True)
+df_val_signals.dropna(subset=['Market-Cap'], inplace=True)
 df_val_signals[df_val_signals['Dividend Yield']<0 ] = 0
 df_val_signals[df_val_signals['Dividend Yield']<-0 ] = 0
 
