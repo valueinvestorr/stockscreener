@@ -5,7 +5,7 @@ from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 import simfin as sf
 
 sf.set_data_dir('~/simfin_data/')
-sf.set_api_key(api_key='dHn4WilocFiLo6bn1sNmkT2lpmkGSWrF')
+sf.set_api_key(api_key)
 
 st.set_page_config(layout="wide")
 st. markdown("<h1 style='text-align: center;'>Stockscreener</h1>", unsafe_allow_html=True)
