@@ -36,7 +36,6 @@ df_val_signals = df_val_signals.replace(np.nan, '0')
 
 df_val_signals['P/Sales'] = df_val_signals['P/Sales'].astype(np.float64)
 df_val_signals['Dividend Yield'] = df_val_signals['Dividend Yield'].astype(np.float64)
-df[df['Dividend Yield']<0 ] = 0
 
 col1, col2, col3, col4, col5 = st.columns(5)
 
