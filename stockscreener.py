@@ -2,7 +2,7 @@ from numbers import Number
 import streamlit as st
 import pandas as pd
 import numpy as np
-from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
+from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, JsCode
 import simfin as sf
 
 sf.set_data_dir('~/simfin_data/')
@@ -36,6 +36,7 @@ df_val_signals = df_val_signals.replace(np.nan, '0')
 
 df_val_signals['P/Sales'] = df_val_signals['P/Sales'].astype(np.float64)
 df_val_signals['Dividend Yield'] = df_val_signals['Dividend Yield'].astype(np.float64)
+df[df['Dividend Yield']<0 ] = 0
 
 col1, col2, col3, col4, col5 = st.columns(5)
 
@@ -204,12 +205,17 @@ if agree:
     if sort=='P/FCF':
             data = data.sort_values('P/FCF', ascending=True)  
 
+    cell_renderer = JsCode("""
+        function(params) {return `<a href="https://www.investcroc.com/${params.value}" target="_blank">${params.value}</a>`}
+        """)
+
     data.loc[:, "Market-Cap"] = data["Market-Cap"].map('{:,.2f}'.format)
     data.loc[:, "Dividend Yield"] =data["Dividend Yield"].map('{:.1%}'.format)
     data = data.replace({'nan%': '-'})
 
 
     gd = GridOptionsBuilder.from_dataframe(data)
+    gd.configure_column("Ticker", cellRenderer=cell_renderer)
     gd.configure_pagination(enabled=True)
     gd.configure_default_column (min_column_width= 180, filterable=False, sorteable=False, header=False)
 
@@ -228,6 +234,7 @@ if agree:
             width= '150%',
             theme= 'material',
             alignment= 'centered',
+            allow_unsafe_jscode=True
             )
 
 else:
@@ -292,12 +299,17 @@ else:
     if sort=='P/FCF':
             data = data.sort_values('P/FCF', ascending=True)  
 
+    cell_renderer = JsCode("""
+        function(params) {return `<a href="https://www.investcroc.com/${params.value}" target="_blank">${params.value}</a>`}
+        """)
+
     data.loc[:, "Market-Cap"] = data["Market-Cap"].map('{:,.2f}'.format)
     data.loc[:, "Dividend Yield"] =data["Dividend Yield"].map('{:.1%}'.format)
     data = data.replace({'nan%': '-'})
 
 
     gd = GridOptionsBuilder.from_dataframe(data)
+    gd.configure_column("Ticker", cellRenderer=cell_renderer)
     gd.configure_pagination(enabled=True)
     gd.configure_default_column (min_column_width= 180, filterable=False, sorteable=False, header=False)
 
@@ -316,4 +328,5 @@ else:
             width= '150%',
             theme= 'material',
             alignment= 'centered',
+            allow_unsafe_jscode=True
             )
