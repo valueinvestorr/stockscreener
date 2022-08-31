@@ -10,7 +10,7 @@ sf.set_api_key(api_key = st.secrets['key'])
 
 st.set_page_config(layout="wide")
 
-with st.spinner('Wait for it...'):
+
 
     hub = sf.StockHub(market='us',
         refresh_days=30,
