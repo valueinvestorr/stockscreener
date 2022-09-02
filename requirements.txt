@@ -3,4 +3,4 @@ pandas==1.4.1
 simfin==0.8.4
 streamlit==1.11.0
 streamlit-aggrid==0.2.3.post2
-mysql-connector-python==x.x.x
+mysql-connector-python==8.0.30
