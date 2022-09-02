@@ -1,6 +1,6 @@
 ﻿numpy==1.22.2
 pandas==1.4.1
 simfin==0.8.4
-streamlit==1.11.0
+streamlit==1.11.1
 streamlit-aggrid==0.2.3.post2
 mysql-connector-python==8.0.30
